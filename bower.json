@@ -1,0 +1,23 @@
+{
+  "name": "worker-timer",
+  "description": "Stable timer API",
+  "version": "0.1.0",
+  "authors": [
+    "mohayonao <mohayonao@gmail.com>"
+  ],
+  "homepage": "https://github.com/mohayonao/worker-timer/",
+  "ignore": [
+    "**/.*",
+    "node_modules"
+  ],
+  "keywords": [
+    "timer",
+    "setInterval",
+    "setTimeout",
+    "clearInterval",
+    "clearTimeout",
+    "test"
+  ],
+  "license": "MIT",
+  "main": "build/worker-timer.js"
+}
