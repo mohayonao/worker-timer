@@ -20,10 +20,10 @@ downloads:
 
 ## API
 
-- `setTimeout(callback: function, delay: number): number`
-- `clearTimeout(timerId: number): void`
 - `setInterval(callback: function, delay: number): number`
 - `clearInterval(timerId: number): void`
+- `setTimeout(callback: function, delay: number): number`
+- `clearTimeout(timerId: number): void`
 
 ## License
 
