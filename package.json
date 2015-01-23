@@ -1,0 +1,35 @@
+{
+  "name": "worker-timer",
+  "description": "Stable timer API",
+  "version": "0.1.0",
+  "author": "mohayonao <mohayonao@gmail.com>",
+  "bugs": {
+    "url": "https://github.com/mohayonao/worker-timer/issues"
+  },
+  "devDependencies": {
+    "browserify": "^8.1.1",
+    "mocha-phantomjs": "^3.5.3",
+    "phantomjs": "^1.9.13",
+    "uglify-js": "^2.4.16"
+  },
+  "homepage": "https://github.com/mohayonao/worker-timer/",
+  "keywords": [
+    "timer",
+    "setInterval",
+    "setTimeout",
+    "clearInterval",
+    "clearTimeout",
+    "webworker"
+  ],
+  "license": "MIT",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mohayonao/worker-timer.git"
+  },
+  "scripts": {
+    "build": "npm run build-browser && npm run build-minify",
+    "build-browser": "browserify index.js --standalone WorkerTimer > build/worker-timer.js",
+    "build-minify": "uglifyjs build/worker-timer.js > build/worker-timer.min.js"
+  }
+}
