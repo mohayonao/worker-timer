@@ -1,7 +1,7 @@
 # worker-timer
-[![Build Status](http://img.shields.io/travis/mohayonao/worker-timer.svg?style=flat)](https://travis-ci.org/mohayonao/worker-timer)
-[![NPM Version](http://img.shields.io/npm/v/worker-timer.svg?style=flat)](https://www.npmjs.org/package/worker-timer)
-[![Bower](https://img.shields.io/bower/v/worker-timer.svg?style=flat)](https://github.com/mohayonao/worker-timer)
+[![Build Status](http://img.shields.io/travis/mohayonao/worker-timer.svg?style=flat-square)](https://travis-ci.org/mohayonao/worker-timer)
+[![NPM Version](http://img.shields.io/npm/v/worker-timer.svg?style=flat-square)](https://www.npmjs.org/package/worker-timer)
+[![Bower](https://img.shields.io/bower/v/worker-timer.svg?style=flat-square)](https://github.com/mohayonao/worker-timer)
 
 > Stable timer API
 
