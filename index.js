@@ -4,78 +4,59 @@ if (!(global === global.window && global.URL && global.Blob && global.Worker)) {
   module.exports = global;
 } else {
   module.exports = (function() {
-    var SetIntervalJS = global.URL.createObjectURL(
-      new global.Blob([
-        "var t=0;onmessage=function(e){clearInterval(t);if(e.data)t=setInterval(function(){postMessage(0)},e.data)}"
-      ], { type: "text/javascript" })
-    );
-    var SetTimeoutJS = global.URL.createObjectURL(
-      new global.Blob([
-        "var t=0;onmessage=function(e){clearTimeout(t);if(e.data)t=setTimeout(function(){postMessage(0)},e.data)}"
-      ], { type: "text/javascript" })
-    );
+    var TIMER_WORKER_SOURCE = [
+      "var timerIds = {}, _ = {};",
+      "_.setInterval = function(args) {",
+      "  timerIds[args.timerId] = setInterval(function() { postMessage(args.timerId); }, args.delay);",
+      "};",
+      "_.clearInterval = function(args) {",
+      "  clearInterval(timerIds[args.timerId]);",
+      "};",
+      "_.setTimeout = function(args) {",
+      "  timerIds[args.timerId] = setTimeout(function() { postMessage(args.timerId); }, args.delay);",
+      "};",
+      "_.clearTimeout = function(args) {",
+      "  clearTimeout(timerIds[args.timerId]);",
+      "};",
+      "onmessage = function(e) { _[e.data.type](e.data) };"
+    ].join("");
+
     var _timerId = 0;
-    var _timers = [];
+    var _callbacks = {};
+    var _timer = new global.Worker(global.URL.createObjectURL(
+      new global.Blob([ TIMER_WORKER_SOURCE ], { type: "text/javascript" })
+    ));
 
-    var inherits = function(ctor, superCtor) {
-      ctor.prototype = Object.create(superCtor.prototype, {
-        constructor: { value: ctor, enumerable: false, writable: true, configurable: true }
-      });
+    _timer.onmessage = function(e) {
+      if (_callbacks[e.data]) {
+        _callbacks[e.data]();
+      }
     };
-
-    function WorkerTimer(path) {
-      this.worker = new global.Worker(path);
-    }
-    WorkerTimer.prototype.set = function(callback, delay) {
-      this.worker.onmessage = callback;
-      this.worker.postMessage(delay);
-    };
-    WorkerTimer.prototype.clear = function() {
-      this.worker.postMessage(0);
-    };
-
-    function WorkerInterval() {
-      WorkerTimer.call(this, SetIntervalJS);
-    }
-    inherits(WorkerInterval, WorkerTimer);
-
-    function WorkerTimeout() {
-      WorkerTimer.call(this, SetTimeoutJS);
-    }
-    inherits(WorkerTimeout, WorkerTimer);
 
     return {
       setInterval: function(callback, delay) {
-        var timer = new WorkerInterval();
-
-        timer.set(callback, delay);
-
         _timerId += 1;
-        _timers[_timerId] = timer;
+
+        _timer.postMessage({ type: "setInterval", timerId: _timerId, delay: delay });
+        _callbacks[_timerId] = callback;
 
         return _timerId;
       },
       setTimeout: function(callback, delay) {
-        var timer = new WorkerTimeout();
-
-        timer.set(callback, delay);
-
         _timerId += 1;
-        _timers[_timerId] = timer;
+
+        _timer.postMessage({ type: "setTimeout", timerId: _timerId, delay: delay });
+        _callbacks[_timerId] = callback;
 
         return _timerId;
       },
       clearInterval: function(timerId) {
-        if (_timers[timerId] instanceof WorkerInterval) {
-          _timers[timerId].clear();
-          delete _timers[timerId];
-        }
+        _timer.postMessage({ type: "clearInterval", timerId: timerId });
+        _callbacks[timerId] = null;
       },
       clearTimeout: function(timerId) {
-        if (_timers[timerId] instanceof WorkerTimeout) {
-          _timers[timerId].clear();
-          delete _timers[timerId];
-        }
+        _timer.postMessage({ type: "clearTimeout", timerId: timerId });
+        _callbacks[timerId] = null;
       }
     };
   })();
