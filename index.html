@@ -5,94 +5,16 @@
   <title>worker-timer :: test</title>
   <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/mocha/2.1.0/mocha.css">
   <script src="http://cdnjs.cloudflare.com/ajax/libs/mocha/2.1.0/mocha.min.js"></script>
-  <script src="http://cdnjs.cloudflare.com/ajax/libs/chai/1.10.0/chai.min.js"></script>
   <script src="build/worker-timer.js"></script>
   <script>
     mocha.setup("bdd");
     window.onload = function() {
-      if (window.mochaPhantomJS) {
-        mochaPhantomJS.run();
-      } else {
-        mocha.run();
-      }
+      mocha.run();
     };
-    window.assert = chai.assert;
   </script>
 </head>
 <body>
   <div id="mocha"></div>
-  <script>
-    describe("WorkerTimer", function() {
-      var timerId;
-
-      afterEach(function() {
-        WorkerTimer.clearInterval(timerId);
-        WorkerTimer.clearTimeout(timerId);
-      });
-
-      it("setInterval(callback: function, delay: number): number", function(done) {
-        var passed = 0;
-
-        timerId = WorkerTimer.setInterval(function() {
-          passed += 1;
-        }, 25);
-
-        assert(typeof timerId === "number");
-
-        setTimeout(function() {
-          assert(passed >= 10);
-          done();
-        }, 500);
-      });
-      it("clearInterval(timerId: number): number", function(done) {
-        var passed = 0, savedPassed = 0;
-
-        timerId = WorkerTimer.setInterval(function() {
-          passed += 1;
-        }, 25);
-
-        assert(typeof timerId === "number");
-
-        setTimeout(function() {
-          WorkerTimer.clearInterval(timerId);
-
-          savedPassed = passed;
-
-          setTimeout(function() {
-            assert(passed === savedPassed);
-            done();
-          }, 250);
-        }, 250);
-      });
-      it("setTimeout(callback: function, delay: number): number", function(done) {
-        var passed = 0;
-
-        timerId = WorkerTimer.setTimeout(function() {
-          passed += 1;
-        }, 25);
-
-        assert(typeof timerId === "number");
-
-        setTimeout(function() {
-          assert(passed === 1);
-          done();
-        }, 500);
-      });
-      it("clearTimeout(timerId: number): void", function(done) {
-        var passed = 0;
-
-        timerId = WorkerTimer.setTimeout(function() {
-          passed += 1;
-        }, 25);
-
-        WorkerTimer.clearTimeout(timerId);
-
-        setTimeout(function() {
-          assert(passed === 0);
-          done();
-        }, 500);
-      });
-    });
-  </script>
+  <script src="test/worker-timer.js"></script>
 </body>
 </html>
