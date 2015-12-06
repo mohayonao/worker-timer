@@ -7,12 +7,12 @@
     "url": "https://github.com/mohayonao/worker-timer/issues"
   },
   "devDependencies": {
-    "browserify": "^8.1.1",
-    "karma": "^0.12.31",
-    "karma-chrome-launcher": "^0.1.7",
-    "karma-firefox-launcher": "^0.1.4",
+    "karma": "^0.12.37",
+    "karma-browserify": "^4.4.2",
+    "karma-chrome-launcher": "^0.1.12",
+    "karma-firefox-launcher": "^0.1.7",
     "karma-mocha": "^0.1.10",
-    "uglify-js": "^2.4.16"
+    "mocha": "^2.3.4"
   },
   "homepage": "https://github.com/mohayonao/worker-timer/",
   "keywords": [
@@ -30,9 +30,6 @@
     "url": "https://github.com/mohayonao/worker-timer.git"
   },
   "scripts": {
-    "build": "npm run build-browser && npm run build-minify",
-    "build-browser": "browserify index.js --standalone WorkerTimer > build/worker-timer.js",
-    "build-minify": "uglifyjs build/worker-timer.js > build/worker-timer.min.js",
     "test": "karma start"
   }
 }

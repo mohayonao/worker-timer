@@ -1,3 +1,5 @@
+var WorkerTimer = require("../");
+
 describe("WorkerTimer", function() {
   var timerId;
 
