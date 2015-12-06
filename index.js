@@ -1,8 +1,6 @@
 "use strict";
 
-if (!(global === global.window && global.URL && global.Blob && global.Worker)) {
-  module.exports = global;
-} else {
+if (global === global.window && global.URL && global.Blob && global.Worker) {
   module.exports = (function() {
     var TIMER_WORKER_SOURCE = [
       "var timerIds = {}, _ = {};",
@@ -29,24 +27,28 @@ if (!(global === global.window && global.URL && global.Blob && global.Worker)) {
 
     _timer.onmessage = function(e) {
       if (_callbacks[e.data]) {
-        _callbacks[e.data]();
+        _callbacks[e.data].callback.apply(null, _callbacks[e.data].params);
       }
     };
 
     return {
       setInterval: function(callback, delay) {
+        var params = Array.prototype.slice.call(arguments, 2);
+
         _timerId += 1;
 
         _timer.postMessage({ type: "setInterval", timerId: _timerId, delay: delay });
-        _callbacks[_timerId] = callback;
+        _callbacks[_timerId] = { callback: callback, params: params };
 
         return _timerId;
       },
       setTimeout: function(callback, delay) {
+        var params = Array.prototype.slice.call(arguments, 2);
+
         _timerId += 1;
 
         _timer.postMessage({ type: "setTimeout", timerId: _timerId, delay: delay });
-        _callbacks[_timerId] = callback;
+        _callbacks[_timerId] = { callback: callback, params: params };
 
         return _timerId;
       },
@@ -60,4 +62,6 @@ if (!(global === global.window && global.URL && global.Blob && global.Worker)) {
       }
     };
   })();
+} else {
+  module.exports = global;
 }

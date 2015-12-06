@@ -1,3 +1,5 @@
+var WorkerTimer = require("../");
+
 describe("WorkerTimer", function() {
   var timerId;
 
@@ -12,12 +14,15 @@ describe("WorkerTimer", function() {
     WorkerTimer.clearTimeout(timerId);
   });
 
-  it("setInterval(callback: function, delay: number): number", function(done) {
+  it("setInterval(callback: function, delay: number, ...params: any): number", function(done) {
     var passed = 0;
 
-    timerId = WorkerTimer.setInterval(function() {
+    timerId = WorkerTimer.setInterval(function(a, b, c) {
+      assert(a === 1);
+      assert(b === 2);
+      assert(c === 3);
       passed += 1;
-    }, 25);
+    }, 25, 1, 2, 3);
 
     assert(typeof timerId === "number");
 
@@ -46,12 +51,15 @@ describe("WorkerTimer", function() {
       }, 250);
     }, 250);
   });
-  it("setTimeout(callback: function, delay: number): number", function(done) {
+  it("setTimeout(callback: function, delay: number, ...params: any): number", function(done) {
     var passed = 0;
 
-    timerId = WorkerTimer.setTimeout(function() {
+    timerId = WorkerTimer.setTimeout(function(a, b, c) {
+      assert(a === 1);
+      assert(b === 2);
+      assert(c === 3);
       passed += 1;
-    }, 25);
+    }, 25, 1, 2, 3);
 
     assert(typeof timerId === "number");
 
