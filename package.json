@@ -14,13 +14,18 @@
     "karma-mocha": "^0.1.10",
     "mocha": "^2.3.4"
   },
+  "files": [
+    "package.json",
+    "index.js",
+    "README.md"
+  ],
   "homepage": "https://github.com/mohayonao/worker-timer/",
   "keywords": [
-    "timer",
-    "setInterval",
-    "setTimeout",
     "clearInterval",
     "clearTimeout",
+    "setInterval",
+    "setTimeout",
+    "timer",
     "webworker"
   ],
   "license": "MIT",
