@@ -1,7 +1,7 @@
 {
   "name": "worker-timer",
-  "description": "Stable timer API",
-  "version": "0.1.1",
+  "description": "Timer API that works stable in background tabs",
+  "version": "1.0.0",
   "author": "mohayonao <mohayonao@gmail.com>",
   "bugs": {
     "url": "https://github.com/mohayonao/worker-timer/issues"
