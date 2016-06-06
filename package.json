@@ -2,21 +2,23 @@
   "name": "worker-timer",
   "description": "Timer API that works stable in background tabs",
   "version": "1.0.0",
-  "author": "mohayonao <mohayonao@gmail.com>",
+  "author": "Nao Yonamine <mohayonao@gmail.com>",
   "bugs": {
     "url": "https://github.com/mohayonao/worker-timer/issues"
   },
   "devDependencies": {
-    "karma": "^0.12.37",
-    "karma-browserify": "^4.4.2",
-    "karma-chrome-launcher": "^0.1.12",
-    "karma-firefox-launcher": "^0.1.7",
-    "karma-mocha": "^0.1.10",
-    "mocha": "^2.3.4"
+    "browserify": "^13.0.1",
+    "karma": "^0.13.22",
+    "karma-browserify": "^5.0.5",
+    "karma-chrome-launcher": "^1.0.1",
+    "karma-firefox-launcher": "^1.0.0",
+    "karma-mocha": "^1.0.1",
+    "mocha": "^2.5.3",
+    "uglify-js": "^2.6.2"
   },
   "files": [
-    "package.json",
     "index.js",
+    "package.json",
     "README.md"
   ],
   "homepage": "https://github.com/mohayonao/worker-timer/",
@@ -35,6 +37,15 @@
     "url": "https://github.com/mohayonao/worker-timer.git"
   },
   "scripts": {
-    "test": "karma start"
+    "build": "npm run build-browser && npm run build-minify",
+    "build-browser": "browserify index.js --standalone WorkerTimer -o build/worker-timer.js",
+    "build-minify": "uglifyjs build/worker-timer.js -o build/worker-timer.min.js",
+    "gh-pages": "git checkout gh-pages && git merge master && git push origin gh-pages && git checkout master",
+    "postversion": "git push && git push --tags",
+    "prepublish": "npm run test && npm run build",
+    "preversion": "npm run test",
+    "test": "karma start",
+    "travis": "npm run test",
+    "version": "npm run build && git add -A build"
   }
 }
