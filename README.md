@@ -11,6 +11,11 @@
 npm install worker-timer
 ```
 
+downloads:
+
+- [worker-timer.js](https://raw.githubusercontent.com/mohayonao/worker-timer/master/build/worker-timer.js)
+- [worker-timer.min.js](https://raw.githubusercontent.com/mohayonao/worker-timer/master/build/worker-timer.min.js)
+
 ## API
 
 - `setInterval(callback: function, delay: number, ...params: any): number`
