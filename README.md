@@ -5,6 +5,10 @@
 
 > Timer API that works stable in background tabs
 
+- - -
+:warning: This module does not work in Chrome 55 or later. :warning:
+- - -
+
 ## Installation
 
 ```
